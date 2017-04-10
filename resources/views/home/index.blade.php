@@ -33,7 +33,7 @@
                         <img src="{{ asset('/img/new_logo.png') }}" alt="Scott Wang">
                     </div>
                     <div class="brand">
-                        Scott Wang
+                        王用
                     </div>
                 </div>
             </a>
@@ -44,19 +44,19 @@
                 <li>
                     <a href="#">
                         <i class="fa fa-facebook-square"></i>
-                        Like
+                        Android
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="fa fa-twitter"></i>
-                        Tweet
+                        iOS
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="fa fa-pinterest"></i>
-                        Pin
+                        UWP
                     </a>
                 </li>
             </ul>
@@ -75,9 +75,10 @@
                     <div class="description">
                         <h2>美味宝 -- 在这里,遇见美味</h2>
                         <br>
-                        <h5>PlayIT! will become your favorite. It offers a list of features long enough that we could
-                            sit here talking about it all day. But, if you're serious about your music, you should
-                            definitely take a look. Find us one every market!</h5>
+                        <h4>
+                            　　美味宝,因为3年深入行业需求,并专注移动互联领域的软件系统研发,为店务管理+平台
+                            运营提供全套方案,更在餐饮上下游产业链思考更远.助力餐饮从业者,创业者们决胜市场竞争!
+                        </h4>
                     </div>
                     <div class="buttons">
                         <button class="btn btn-fill btn-neutral">
@@ -101,12 +102,18 @@
     </div>
     <div class="section section-gray section-clients">
         <div class="container text-center">
-            <h4 class="header-text">They were the first to go PlayIT</h4>
+            <h4 class="header-text">他们都在用 -- 排名高,口碑好的餐饮管理软件</h4>
             <p>
-                Build customer confidence by listing your users! Anyone who has used your service and has been pleased
-                with it should have a place here! From Fortune 500 to start-ups, all your app enthusiasts will be glad
-                to be featured in this section. Moreover, users will feel confident seing someone vouching for your
-                product!<br>
+                升级无需更换硬件,安装即用!零成本使用微信支付,支付宝,会员支付等收款方式.
+                <br>
+                全面支持手机点餐,
+                点餐宝点餐,pad点餐,微信扫码点餐,预约排队,触屏收银等多种点单方式.
+                <br>
+                会员营销新奇特,客户反馈更高效.关怀激发老用户,分享带来新客源.
+                <br>
+                线上线下数据全打通,订单及客户数据自主掌握,随身监控,高效决策
+                精控成本.
+                <br>
             </p>
             <div class="logos">
                 <ul class="list-unstyled">
@@ -125,13 +132,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="description">
-                        <h4 class="header-text">It's beautiful</h4>
-                        <p>We are 'Play It!', a startup specialising in funky headphones and speakers. We make and sell
-                            the mechanisms that let you listen to your favourite music everywhere! With our prestigious
-                            craftsmanship, remarkable client care and passion for design, you could say we’re the ‘all
-                            singing, all dancing’ kind. We think you’ll love working with us.</p>
-                        <p>We make the objects that bring music closer to you. If you want to play music at home on a
-                            bad ass box of take in on the road with headphones, we make all the options possible.
+                        <h4 class="header-text">互联网+餐饮,划时代升级</h4>
+                        <p>
+                            算盘账目/单机收银时代:
+                            <br>
+                            劳动力高依赖,系统结构复杂,数据信息孤岛,营销无法开展."粗放式"的经营模式,呆萌的餐饮管理,
+                            笨拙的运作效率,高昂的时间成本.
+                        </p>
+                        <p>
+                            消费升级!互联网+餐饮,划时代升级:
+                            <br>
+                            "精细化"运营模式,智能化餐饮管理,提高运作效率,降低成本.在注重消费体验,门店推广和客流转化的
+                            今天,实体门店与线上在线餐厅的结合已经成为餐饮业的主流,线上的额先期展示与引导成为决定线下
+                            客流的重要因素.
                         </p>
                     </div>
                 </div>
@@ -165,21 +178,27 @@
                     </div>
                 </div>
                 <div class="col-md-5 col-md-offset-1">
-                    <h4 class="header-text">Easy to use</h4>
+                    <h4 class="header-text">单店点单营销,多店平台运营</h4>
                     <p>
-                        With all the apps that users love! Make it easy for users to share, like, post and tweet their
-                        favourite things from the app. Be sure to let users know they continue to remain connected while
-                        using your app!
+                        单店点单营销:
+                        <br>
+                        独立的堂吃收银,触屏点餐.可视化后台管理,快捷的点单界面.完整主系统终生免费,注册即用!
+                        <br>
+                        <br>
+                        多店平台运营:
+                        <br>
+                        平台创业者专属,不限店铺数,可视化后台管理.餐厅联盟,佣金设定,添加供应商,做餐厅才配联盟.
+                        本地化生活服务餐厅O2O平台系统.
                     </p>
                     <a href="" id="Demo1" class="btn btn-warning btn-fill"
-                       data-button="warning">Get Free Demo</a>
+                       data-button="warning">免费体验,注册即用!</a>
                 </div>
             </div>
         </div>
     </div>
     <div class="section section-features">
         <div class="container">
-            <h4 class="header-text text-center">Features</h4>
+            <h4 class="header-text text-center">多种业务类型使用</h4>
             <div class="row">
                 <div class="col-md-4">
                     <div class="card card-orange">
@@ -187,9 +206,10 @@
                             <i class="pe-7s-musiclist"></i>
                         </div>
                         <div class="text">
-                            <h4>Be serious about your music</h4>
-                            <p>All appointments sync with your Google calendar so your availability is always up to
-                                date. See your schedule at a glance from any device.</p>
+                            <h4>中小餐饮商家</h4>
+                            <p>
+                                简单易用的点单收银软件,菜品管理客户营销,财务管理统计分析,系统使用及升级终身免费.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -198,9 +218,10 @@
                         <div class="icon">
                             <i class="pe-7s-bell"></i>
                         </div>
-                        <h4>Smart Notifications on hands</h4>
-                        <p>Automatic text and email reminders make sure customers always remember their upcoming
-                            appointments.</p>
+                        <h4>外卖餐饮商家</h4>
+                        <p>
+                            方便快捷的下单流程,精美的网页菜品展示,外卖送餐或到店消费可提前预定,餐厅经营更高效.
+                        </p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -208,9 +229,10 @@
                         <div class="icon">
                             <i class="pe-7s-play"></i>
                         </div>
-                        <h4>PlaIT on any devices</h4>
-                        <p>Take payments and run your business on the go, in your store and then see how it all adds up
-                            with analytics.</p>
+                        <h4>外卖平台创业</h4>
+                        <p>
+                            简易搭建本地生活服务O2O平台,创业者专属品牌!多种盈利方式,食材供应,外卖配送,全部打通!
+                        </p>
                     </div>
                 </div>
             </div>
@@ -218,36 +240,36 @@
     </div>
     <div class="section section-testimonial">
         <div class="container">
-            <h4 class="header-text text-center">What people think</h4>
+            <h4 class="header-text text-center">成功案例</h4>
             <div id="carousel-example-generic" class="carousel fade" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
                     <div class="item">
                         <div class="mask">
-                            <img src="{{ asset('/img/faces/face-4.jpg') }}">
+                            <img src="{{ asset('/img/faces/小董快跑.png') }}">
                         </div>
                         <div class="carousel-testimonial-caption">
-                            <p>Jay Z, Producer</p>
-                            <h3>"I absolutely love your app! It's truly amazing and looks awesome!"</h3>
+                            <p>小董快跑</p>
+                            <h3>寿阳县滨阳北路新阳上城二期东侧商业15号，欢迎您的光临。做本地最好的服务平台</h3>
                         </div>
                     </div>
                     <div class="item active">
                         <div class="mask">
-                            <img src="{{ asset('/img/faces/face-3.jpg') }}">
+                            <img src="{{ asset('/img/faces/小董快跑.png') }}">
                         </div>
                         <div class="carousel-testimonial-caption">
-                            <p>Drake, Artist</p>
-                            <h3>"This is one of the most awesome apps I've ever seen! Wish you luck Creative Tim!"</h3>
+                            <p>桐梓县Smar神马跑腿</p>
+                            <h3>桐梓县本地生活服务平台，这里有鲜花、蛋糕、餐饮小吃；只要您动动手指，美味立即送到。</h3>
                         </div>
                     </div>
                     <div class="item">
                         <div class="mask">
-                            <img src="{{ asset('/img/faces/face-2.jpg') }}">
+                            <img src="{{ asset('/img/faces/每时每刻.png') }}">
                         </div>
                         <div class="carousel-testimonial-caption">
-                            <p>Rick Ross, Musician</p>
-                            <h3>"Loving this! Just picked it up the other day. Thank you for the work you put into
-                                this."</h3>
+                            <p>每时每刻外卖配送中心</p>
+                            <h3>三亚首家同城配送微订单平台，提供三亚同城代配送服务，代驾服务。
+                                每时每刻让您的生活更简单！</h3>
                         </div>
                     </div>
                 </div>
@@ -265,9 +287,9 @@
                 <img class="parallax-background-image flipped" src="{{ asset('/img/showcases/showcase-1/bg2.jpg') }}">
             </div>
             <div class="info">
-                <h1>Download this landing page for free!</h1>
-                <p>Beautiful multipurpose bootstrap landing page.</p>
-                <a href="" class="btn btn-neutral btn-lg btn-fill">DOWNLOAD</a>
+                <h1>美味宝 -- 值得创业者信赖的合作伙伴</h1>
+                <p>美味宝已服务25687家餐厅，并高速增长中......</p>
+                <a href="" class="btn btn-neutral btn-lg btn-fill">立即开通</a>
             </div>
         </div>
     </div>
@@ -277,22 +299,22 @@
                 <ul>
                     <li>
                         <a href="#">
-                            Home
+                            首页
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            Company
+                            产品中心
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            Portfolio
+                            经典案例
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            Blog
+                            帮助中心
                         </a>
                     </li>
                 </ul>
