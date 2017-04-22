@@ -18,16 +18,28 @@ Route::get('/', function () {
 });
 
 /**
- * Auth
+ * Auth,目前只给管理员提供了WEB端
  */
 
 //Route::get('login', 'Auth\LoginController@login');
 Route::get('login', function () {
-    return view('auth.login');
+    return view('admin.auth.login');
 });
 Route::get('register', function () {
-    return view('auth.register');
+    return view('admin.auth.register');
 });
 Route::get('forgotPassword', function () {
-    return view('auth.forgot_password');
+    return view('admin.auth.forgot_password');
+});
+
+/**
+ * api,提供给其他端(App, Web等)
+ */
+
+Route::group(['prefix' => 'api/app/auth'], function () {
+    //APP端顾客注册
+    Route::get('register', 'App\Auth\RegisterController@register');
+
+    //APP端顾客登录
+
 });
