@@ -32,14 +32,16 @@ Route::get('forgotPassword', function () {
     return view('admin.auth.forgot_password');
 });
 
+// TODO: 将所有的checkHeader方法换成相应的中间件!
+
 /**
  * api,提供给其他端(App, Web等)
  */
 
 Route::group(['prefix' => 'api/app/auth'], function () {
     //APP端顾客注册
-    Route::get('register', 'App\Auth\RegisterController@register');
+    Route::post('register', 'App\Auth\RegisterController@register');
 
     //APP端顾客登录
-
+    Route::post('login', 'App\Auth\LoginController@login');
 });
