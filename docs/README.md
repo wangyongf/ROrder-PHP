@@ -8,3 +8,4 @@
 - [ ] UserInfo表增加token字段, token_expire_time字段
 - [ ] Restaurant表
 - [ ] 下一个弄菜单相关的逻辑~
+- [ ] 增加一个api_token表,暂时用于api授权

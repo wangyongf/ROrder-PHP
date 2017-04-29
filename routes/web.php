@@ -33,18 +33,24 @@ Route::get('forgotPassword', function () {
 });
 
 // TODO: 将所有的checkHeader方法换成相应的中间件!
+// TODO: API RESTFUL化
 
 /**
  * api,提供给其他端(App, Web等)
  */
 
-Route::group(['prefix' => 'api/app/auth'], function () {
-    //APP端顾客注册
-    Route::match(['get', 'post'], 'register', 'App\Auth\RegisterController@register');
+Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
+    //api v1
+    Route::group(['prefix' => 'v1'], function() {
+        Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
+            //APP端顾客注册
+            Route::match(['get', 'post'], 'register', 'RegisterController@register');
 
-    //APP端顾客登录
-    Route::match(['get', 'post'], 'login', 'App\Auth\LoginController@login');
+            //APP端顾客登录
+            Route::match(['get', 'post'], 'login', 'LoginController@login');
+        });
+
+        //餐厅
+        Route::resource('restaurant', 'RestaurantController');
+    });
 });
-
-//餐厅
-Route::resource('restaurants', 'App\RestaurantController');

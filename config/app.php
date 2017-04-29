@@ -177,6 +177,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * Dingo Api Service Providers...
+         */
+//        Dingo\Api\Provider\LaravelServiceProvider::class,
+
+        /**
+         * Laravel Passport Service Providers...
+         */
+//        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*
