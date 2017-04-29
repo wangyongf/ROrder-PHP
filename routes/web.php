@@ -40,8 +40,11 @@ Route::get('forgotPassword', function () {
 
 Route::group(['prefix' => 'api/app/auth'], function () {
     //APP端顾客注册
-    Route::post('register', 'App\Auth\RegisterController@register');
+    Route::match(['get', 'post'], 'register', 'App\Auth\RegisterController@register');
 
     //APP端顾客登录
-    Route::post('login', 'App\Auth\LoginController@login');
+    Route::match(['get', 'post'], 'login', 'App\Auth\LoginController@login');
 });
+
+//餐厅
+Route::resource('restaurants', 'App\RestaurantController');

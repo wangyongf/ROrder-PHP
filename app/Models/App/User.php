@@ -29,27 +29,24 @@ class User extends Model
     const REALNAME = 'realname';
     const EMAIL = 'email';
     const HEAD_PORTRAIT = 'head_portrait';
-
-    /**
-     * 关联到模型的数据表
-     *
-     * @var string
-     */
-    protected $table = self::TABLE_NAME;
-
-    /**
-     * 主键
-     *
-     * @var string
-     */
-    protected $primaryKey = self::UID;
-
     /**
      * 非自增主键
      *
      * @var bool
      */
     public $incrementing = false;
+    /**
+     * 关联到模型的数据表
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+    /**
+     * 主键
+     *
+     * @var string
+     */
+    protected $primaryKey = self::UID;
 
 
 }
