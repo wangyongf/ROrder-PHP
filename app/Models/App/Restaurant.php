@@ -2,7 +2,7 @@
 
 namespace App\Models\App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * 餐厅信息表
@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class Restaurant extends Model
+class Restaurant extends BaseModel
 {
-    const TABLE_NAME = 't_restaurant_info';             //表名
+    const TABLE_NAME = 'T_RESTAURANT_INFO';             //表名
     const ID = 'id';                //主键
     const RESTAURANT_ID = 'restaurant_id';
     const NAME = 'name';

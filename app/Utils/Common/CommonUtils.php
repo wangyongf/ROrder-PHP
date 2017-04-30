@@ -16,6 +16,7 @@ class CommonUtils
 {
     /**
      * 生成ROrder-PHP的空json响应
+     * // TODO: 干掉CommonUtils里面的这个方法
      *
      * @param $code
      * @param $msg

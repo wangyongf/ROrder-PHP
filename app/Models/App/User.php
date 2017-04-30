@@ -2,7 +2,7 @@
 
 namespace App\Models\App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * 顾客信息表
@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @version     1.0
  * @since         ROrder-PHP 0.1
  */
-class User extends Model
+class User extends BaseModel
 {
-    const TABLE_NAME = 't_user_info';               //表名
+    const TABLE_NAME = 'T_USER_INFO';               //表名
     const UID = 'uid';                              //UID
     const MOBILE = 'mobile';
     const NICKNAME = 'nickname';

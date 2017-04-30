@@ -42,15 +42,24 @@ Route::get('forgotPassword', function () {
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
     //api v1
     Route::group(['prefix' => 'v1'], function() {
+        //登录注册
         Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
             //APP端顾客注册
             Route::match(['get', 'post'], 'register', 'RegisterController@register');
-
             //APP端顾客登录
             Route::match(['get', 'post'], 'login', 'LoginController@login');
         });
 
+        //用户
+        Route::post('user/store', 'UserController@store');
+        Route::get('user/get/{id}', 'UserController@get');
+
         //餐厅
-        Route::resource('restaurant', 'RestaurantController');
+        Route::post('restaurant/store', 'RestaurantController@store');
+        Route::get('restaurant/get/{id}', 'RestaurantController@get');
+
+        //服务员
+        Route::post('waiter/store', 'WaiterController@store');
+        Route::get('waiter/get/{id}', 'WaiterController@get');
     });
 });

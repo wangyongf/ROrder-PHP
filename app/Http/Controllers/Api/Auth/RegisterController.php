@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\App\User;
+use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
 
 /**
@@ -75,15 +76,11 @@ class RegisterController extends Controller
                     'uid' => $newUid,
                     'email' => $email,
                     'nickname' => $nickname,
-                    //TODO: 增加token字段?
+                    //TODO: 增加token字段和refreshToken字段?
                 ]
             ]);
         } else {
-            return response()->json([
-                'code' => 1003,
-                'msg' => '未知错误,请稍后再试',
-                'data' => null
-            ]);
+            return ResponseUtils::nullJsonResponse('1003', '未知错误,请稍后再试');
         }
     }
 
