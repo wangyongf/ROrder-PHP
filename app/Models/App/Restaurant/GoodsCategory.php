@@ -1,22 +1,17 @@
 <?php
 
-namespace App\Models\App;
+namespace App\Models\App\Restaurant;
 
 use App\Models\BaseModel;
 
-class Waiter extends BaseModel
+class GoodsCategory extends BaseModel
 {
-    const TABLE_NAME = 'T_WAITERS';
+    const TABLE_NAME = 'T_GOODS_CATEGORIES';
     const ID = 'id';
-    const WAITER_ID = 'waiter_id';
+    const CATEGORY_ID = 'category_id';
     const RESTAURANT_INFO_ID = 'restaurant_info_id';
-    const STATUS = 'status';
     const NAME = 'name';
-    const ORDERS_ID = 'orders_id';
-    const SEX = 'sex';
-    const BIRTHDAY = 'birthday';
-    const PICTURES = 'pictures';
-    const TITLE = 'title';
+    const PARENT_ID = 'parent_id';
 
     /**
      * 非自增主键

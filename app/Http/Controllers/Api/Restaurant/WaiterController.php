@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Restaurant;
 
 use App\Http\Controllers\Controller;
-use App\Models\App\Waiter;
+use App\Models\App\Restaurant\Waiter;
+use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
 
 class WaiterController extends Controller
@@ -35,20 +36,24 @@ class WaiterController extends Controller
      * 将新创建的服务员存储到数据库
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        $id = Waiter::all()->count();
-        $waiter_id = $request->input(Waiter::WAITER_ID);
-        $restaurant_info_id = $request->input(Waiter::RESTAURANT_INFO_ID);
-        $status = $request->input(Waiter::STATUS);
-        $name = $request->input(Waiter::NAME);
-        $orders_id = $request->input(Waiter::ORDERS_ID);
-        $sex = $request->input(Waiter::SEX);
-        $birthday = $request->input(Waiter::BIRTHDAY);
-        $pictures = $request->input(Waiter::PICTURES);
-        $title = $request->input(Waiter::TITLE);
+        $id = Waiter::all()->count() + 1;
+        $waiter_id = $request->header(Waiter::WAITER_ID);
+        $restaurant_info_id = $request->header(Waiter::RESTAURANT_INFO_ID);
+        $status = $request->header(Waiter::STATUS);
+        $name = $request->header(Waiter::NAME);
+        $orders_id = $request->header(Waiter::ORDERS_ID);
+        $sex = $request->header(Waiter::SEX);
+        $birthday = $request->header(Waiter::BIRTHDAY);
+        $pictures = $request->header(Waiter::PICTURES);
+        $title = $request->header(Waiter::TITLE);
+
+        if (empty($waiter_id)) {
+            return ResponseUtils::nullJsonResponse('400', '客户端请求错误');
+        }
 
         // TODO: checkHeader--middleware
 
@@ -64,6 +69,8 @@ class WaiterController extends Controller
         $waiter->pictures = $pictures;
         $waiter->title = $title;
         $waiter->save();
+
+        return ResponseUtils::simpleSuccessJsonResponse();
     }
 
     /**
@@ -80,7 +87,7 @@ class WaiterController extends Controller
 
     /**
      * Display the specified resource.
-     * 显示指定服务员的页面
+     * 显示指定服务员信息的页面
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
