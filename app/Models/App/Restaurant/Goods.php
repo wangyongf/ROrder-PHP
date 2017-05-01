@@ -5,23 +5,28 @@ namespace App\Models\App\Restaurant;
 use App\Models\BaseModel;
 
 /**
- * 商品(菜品)分类表
+ * 商品(菜品)表
  *
- * Class GoodsCategory
+ * Class Goods
  * @package App\Models\App\Restaurant
  *
  * @author      Scott Wang
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class GoodsCategory extends BaseModel
+class Goods extends BaseModel
 {
-    const TABLE_NAME = 'T_GOODS_CATEGORIES';
+    const TABLE_NAME = 'T_GOODS';
     const ID = 'id';
-    const CATEGORY_ID = 'category_id';
-    const RESTAURANT_INFO_ID = 'restaurant_info_id';
+    const GOODS_ID = 'goods_id';
     const NAME = 'name';
-    const PARENT_ID = 'parent_id';
+    const ORIGINAL_PRICE = 'original_price';
+    const REAL_PRICE = 'real_price';
+    const RESTAURANT_INFO_ID = 'restaurant_info_id';
+    const DESCRIPTION = 'description';
+    const AVAILABLE = 'available';                  //商品是否可用：0不可用，1可用
+    const PICTURES = 'pictures';
+    const GOODS_CATEGORIES_ID = 'goods_categories_id';              //所属商品分类
 
     /**
      * 非自增主键

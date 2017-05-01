@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api\Restaurant;
+namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
-use App\Models\App\Restaurant\GoodsCategory;
+use App\Models\App\Order\Transaction;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
 
 /**
- * 餐厅商品(菜品)控制器
+ * 交易流水(记录)表
  *
- * Class GoodsCategoryController
- * @package App\Http\Controllers\Api\Restaurant
+ * Class TransactionController
+ * @package App\Http\Controllers\Api\Order
  *
  * @author      Scott Wang
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class GoodsCategoryController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * 显示所有的商品分类列表的页面
+     * 显示所有的交易流水列表的页面
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,9 +32,11 @@ class GoodsCategoryController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * 显示创建新的商品分类的页面
+     * 显示创建新的交易流水的页面
      *
      * @return \Illuminate\Http\Response
+     *
+     * @deprecated
      */
     public function create()
     {
@@ -43,51 +45,51 @@ class GoodsCategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * 将新的商品分类存储到数据库
+     * 将新的交易流水信息存储到数据库中
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        $id = GoodsCategory::all()->count() + 1;
-        $categoryId = $request->header(GoodsCategory::CATEGORY_ID);
-        $restaurantInfoId = $request->header(GoodsCategory::RESTAURANT_INFO_ID);
-        $name = $request->header(GoodsCategory::NAME);
-        $parentId = $request->header(GoodsCategory::PARENT_ID);
+        $id = Transaction::all()->count() + 1;
+        $goodsId = $request->header(Transaction::GOODS_ID);
+        $goodsName = $request->header(Transaction::GOODS_NAME);
+        $ordersId = $request->header(Transaction::ORDERS_ID);
+        $quantity = $request->header(Transaction::QUANTITY);
 
-        if (empty($categoryId)) {
+        if (empty($goodsId)) {
             return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
         }
 
         // TODO: checkHeader--middleware
 
-        $goodCategory = new GoodsCategory();
-        $goodCategory->id = $id;
-        $goodCategory->category_id = $categoryId;
-        $goodCategory->restaurant_info_id = $restaurantInfoId;
-        $goodCategory->name = $name;
-        $goodCategory->parent_id = $parentId;
-        $goodCategory->save();
+        $transaction = new Transaction();
+        $transaction->id = $id;
+        $transaction->goods_id = $goodsId;
+        $transaction->goods_name = $goodsName;
+        $transaction->orders_id = $ordersId;
+        $transaction->quantity = $quantity;
+        $transaction->save();
 
         return ResponseUtils::simpleSuccessJsonResponse();
     }
 
     /**
-     * 获取指定商品分类的信息(json)
+     * 获取指定交易流水的信息(json)
      *
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function get($id)
     {
-        $goodsCategory = GoodsCategory::find($id);
-        return response()->json($goodsCategory->toArray());
+        $transaction = Transaction::find($id);
+        return response()->json($transaction->toArray());
     }
 
     /**
      * Display the specified resource.
-     * 显示指定商品分类信息的页面
+     * 显示指定交易流水信息的页面
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -99,10 +101,12 @@ class GoodsCategoryController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * 显示编辑指定商品分类的页面
+     * 显示编辑指定交易流水信息的页面
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
+     *
+     * @deprecated
      */
     public function edit($id)
     {
@@ -111,7 +115,7 @@ class GoodsCategoryController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * 在数据库中更新指定商品分类的信息
+     * 在数据库中更新指定交易流水的信息
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
@@ -124,7 +128,7 @@ class GoodsCategoryController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * 在数据库中移除指定优惠券
+     * 在数据库中移除指定交易流水
      *
      * @param  int $id
      * @return \Illuminate\Http\Response

@@ -1,27 +1,30 @@
 <?php
 
-namespace App\Models\App\Restaurant;
+namespace App\Models\App\Order;
 
 use App\Models\BaseModel;
 
 /**
- * 商品(菜品)分类表
+ * 订单表
  *
- * Class GoodsCategory
- * @package App\Models\App\Restaurant
+ * Class Order
+ * @package App\Models\App
  *
  * @author      Scott Wang
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class GoodsCategory extends BaseModel
+class Order extends BaseModel
 {
-    const TABLE_NAME = 'T_GOODS_CATEGORIES';
+    const TABLE_NAME = 'T_ORDERS';
     const ID = 'id';
-    const CATEGORY_ID = 'category_id';
+    const WAITERS_ID = 'waiters_id';
+    const TOTAL_PRICE = 'total_price';
+    const NOTES = 'notes';
     const RESTAURANT_INFO_ID = 'restaurant_info_id';
-    const NAME = 'name';
-    const PARENT_ID = 'parent_id';
+    const STATUS = 'status';
+    const TABLES_ID = 'tables_id';
+    const USER_INFO_UID = 'user_info_uid';
 
     /**
      * 非自增主键

@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Models\App\Restaurant;
+namespace App\Models\App\User;
 
 use App\Models\BaseModel;
 
 /**
- * 商品(菜品)分类表
+ * 优惠券用户关联表
  *
- * Class GoodsCategory
- * @package App\Models\App\Restaurant
+ * Class UserCoupon
+ * @package App\Models\App\User
  *
  * @author      Scott Wang
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class GoodsCategory extends BaseModel
+class UserCoupon extends BaseModel
 {
-    const TABLE_NAME = 'T_GOODS_CATEGORIES';
+    const TABLE_NAME = 'T_USER_COUPONS';
     const ID = 'id';
-    const CATEGORY_ID = 'category_id';
-    const RESTAURANT_INFO_ID = 'restaurant_info_id';
-    const NAME = 'name';
-    const PARENT_ID = 'parent_id';
+    const COUPONS_ID = 'coupons_id';
+    const RECEIVE_TIME = 'receive_time';
+    const RECEIVE_STATUS = 'receive_status';
+    const USER_INFO_UID = 'user_info_uid';
 
     /**
      * 非自增主键

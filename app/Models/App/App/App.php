@@ -1,34 +1,33 @@
 <?php
 
-namespace App\Models\App\Restaurant;
+namespace App\Models\App\App;
 
 use App\Models\BaseModel;
 
 /**
- * 商品(菜品)分类表
+ * APP信息表
  *
- * Class GoodsCategory
- * @package App\Models\App\Restaurant
+ * Class App
+ * @package App\Models\App\App
  *
  * @author      Scott Wang
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class GoodsCategory extends BaseModel
+class App extends BaseModel
 {
-    const TABLE_NAME = 'T_GOODS_CATEGORIES';
+    const TABLE_NAME = 'T_APPS';
     const ID = 'id';
-    const CATEGORY_ID = 'category_id';
-    const RESTAURANT_INFO_ID = 'restaurant_info_id';
+    const APPID = 'appid';
     const NAME = 'name';
-    const PARENT_ID = 'parent_id';
+    const HOME_PAGE = 'home_page';
 
     /**
-     * 非自增主键
+     * 自增主键
      *
      * @var bool
      */
-    public $incrementing = false;
+    public $incrementing = true;
 
     /**
      * 关联到模型的数据表

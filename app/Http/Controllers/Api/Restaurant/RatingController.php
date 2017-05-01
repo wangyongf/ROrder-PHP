@@ -3,25 +3,25 @@
 namespace App\Http\Controllers\Api\Restaurant;
 
 use App\Http\Controllers\Controller;
-use App\Models\App\Restaurant\GoodsCategory;
+use App\Models\App\Restaurant\Rating;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
 
 /**
- * 餐厅商品(菜品)控制器
+ * 用户评价控制器
  *
- * Class GoodsCategoryController
+ * Class RatingController
  * @package App\Http\Controllers\Api\Restaurant
  *
  * @author      Scott Wang
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class GoodsCategoryController extends Controller
+class RatingController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * 显示所有的商品分类列表的页面
+     * 显示所有的用户评价列表的页面
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class GoodsCategoryController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * 显示创建新的商品分类的页面
+     * 显示创建新的用户评价的页面
      *
      * @return \Illuminate\Http\Response
      */
@@ -43,51 +43,59 @@ class GoodsCategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * 将新的商品分类存储到数据库
+     * 将新的用户评价存储到数据库
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        $id = GoodsCategory::all()->count() + 1;
-        $categoryId = $request->header(GoodsCategory::CATEGORY_ID);
-        $restaurantInfoId = $request->header(GoodsCategory::RESTAURANT_INFO_ID);
-        $name = $request->header(GoodsCategory::NAME);
-        $parentId = $request->header(GoodsCategory::PARENT_ID);
+        $ordersId = $request->header(Rating::ORDERS_ID);
+        $generalRating = $request->header(Rating::GENERAL_RATING);
+        $serviceRating = $request->header(Rating::SERVICE_RATING);
+        $envRating = $request->header(Rating::ENV_RATING);
+        $foodRating = $request->header(Rating::FOOD_RATING);
+        $comment = $request->header(Rating::COMMENT);
+        $recommend = $request->header(Rating::RECOMMEND);
+        $commentPictures = $request->header(Rating::COMMENT_PICTURES);
+        $status = $request->header(Rating::STATUS);
 
-        if (empty($categoryId)) {
+        if (empty($ordersId)) {
             return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
         }
 
         // TODO: checkHeader--middleware
 
-        $goodCategory = new GoodsCategory();
-        $goodCategory->id = $id;
-        $goodCategory->category_id = $categoryId;
-        $goodCategory->restaurant_info_id = $restaurantInfoId;
-        $goodCategory->name = $name;
-        $goodCategory->parent_id = $parentId;
-        $goodCategory->save();
+        $rating = new Rating();
+        $rating->orders_id = $ordersId;
+        $rating->general_rating = $generalRating;
+        $rating->service_rating = $serviceRating;
+        $rating->env_rating = $envRating;
+        $rating->food_rating = $foodRating;
+        $rating->comment = $comment;
+        $rating->recommend = $recommend;
+        $rating->comment_pictures = $commentPictures;
+        $rating->status = $status;
+        $rating->save();
 
         return ResponseUtils::simpleSuccessJsonResponse();
     }
 
     /**
-     * 获取指定商品分类的信息(json)
+     * 获取指定用户评价的信息(json)
      *
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function get($id)
     {
-        $goodsCategory = GoodsCategory::find($id);
-        return response()->json($goodsCategory->toArray());
+        $rating = Rating::find($id);
+        return response()->json($rating->toArray());
     }
 
     /**
      * Display the specified resource.
-     * 显示指定商品分类信息的页面
+     * 显示指定用户评价的页面
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -99,7 +107,7 @@ class GoodsCategoryController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * 显示编辑指定商品分类的页面
+     * 显示编辑指定用户评价的页面
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -111,7 +119,7 @@ class GoodsCategoryController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * 在数据库中更新指定商品分类的信息
+     * 在数据库中更新指定用户评价
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
@@ -124,7 +132,7 @@ class GoodsCategoryController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * 在数据库中移除指定优惠券
+     * 在数据库中移除指定用户评价(可能只是隐藏)
      *
      * @param  int $id
      * @return \Illuminate\Http\Response

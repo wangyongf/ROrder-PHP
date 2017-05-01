@@ -1,30 +1,31 @@
 <?php
 
-namespace App\Models\App\Restaurant;
+namespace App\Models\App\Order;
 
 use App\Models\BaseModel;
 
 /**
- * 商品(菜品)分类表
+ * 上菜进度表
  *
- * Class GoodsCategory
+ * Class DishSchedule
  * @package App\Models\App\Restaurant
  *
  * @author      Scott Wang
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class GoodsCategory extends BaseModel
+class DishSchedule extends BaseModel
 {
-    const TABLE_NAME = 'T_GOODS_CATEGORIES';
+    const TABLE_NAME = 'T_DISH_SCHEDULE';
     const ID = 'id';
-    const CATEGORY_ID = 'category_id';
-    const RESTAURANT_INFO_ID = 'restaurant_info_id';
-    const NAME = 'name';
-    const PARENT_ID = 'parent_id';
+    const ORDERS_ID = 'orders_id';
+    const ORDER_DETAILS_ID = 'order_details_id';
+    const STATUS = 'status';
+    const SCHEDULE = 'schedule';        //进度(枚举)：n            0尚未开始制作，1正在制作，2制作完成上菜中，3上菜完毕，4其它
+    const COOKS_ID = 'cooks_id';
 
     /**
-     * 非自增主键
+     * 自增主键
      *
      * @var bool
      */

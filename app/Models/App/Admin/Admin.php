@@ -1,34 +1,35 @@
 <?php
 
-namespace App\Models\App\Restaurant;
+namespace App\Models\App\Admin;
 
 use App\Models\BaseModel;
 
 /**
- * 商品(菜品)分类表
+ * 管理员表
  *
- * Class GoodsCategory
- * @package App\Models\App\Restaurant
+ * Class Admin
+ * @package App\Models\App\Admin
  *
  * @author      Scott Wang
  * @version     0.1
  * @since         ROrder-PHP 0.1
  */
-class GoodsCategory extends BaseModel
+class Admin extends BaseModel
 {
-    const TABLE_NAME = 'T_GOODS_CATEGORIES';
+    const TABLE_NAME = 'T_ADMINS';
     const ID = 'id';
-    const CATEGORY_ID = 'category_id';
-    const RESTAURANT_INFO_ID = 'restaurant_info_id';
+    const ADMIN_ID = 'admin_id';
+    const EMAIL = 'email';
+    const MOBILE = 'mobile';
     const NAME = 'name';
-    const PARENT_ID = 'parent_id';
+    const PASSWORD = 'password';
 
     /**
-     * 非自增主键
+     * 自增主键
      *
      * @var bool
      */
-    public $incrementing = false;
+    public $incrementing = true;
 
     /**
      * 关联到模型的数据表
