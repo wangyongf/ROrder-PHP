@@ -73,6 +73,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //用户信息
             Route::post('user/store', 'UserController@store');
             Route::get('user/get/{id}', 'UserController@get');
+            Route::get('user/register_free/{mobile}', 'UserController@registerFreeLogin');                   //使用手机号免注册登录
 
             //用户优惠券
             Route::post('user_coupon/store', 'UserCouponController@store');

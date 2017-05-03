@@ -21,6 +21,9 @@
 - [ ] 设计数据库冗余的时候,要考虑某些字段可能会有修改,所以,可能会经常修改的字段不宜冗余?
 - [ ] Apps表增加ID字段
 - [ ] AppVersions表的version_code字段改成int类型
+- [ ] 增加一个用户登录表,存储用户id, token, refreshToken, expireTime等字段
+- [ ] User表: 将UID字段改成UUID字段,主键改为UID; UID为自增整型(zero fill), UUID可以为varchar
+- [ ] User表: head_portrait字段改为user_avatar字段
 
 ## 关于生成UID
 

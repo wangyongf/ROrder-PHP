@@ -89,6 +89,12 @@ class UserController extends Controller
         return response()->json($user->toArray());
     }
 
+
+    public function registerFreeLogin($mobile)
+    {
+
+    }
+
     /**
      * Display the specified resource.
      * 显示指定用户的页面
