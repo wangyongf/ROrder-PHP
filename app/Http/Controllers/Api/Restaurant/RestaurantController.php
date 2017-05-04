@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Restaurant;
 
 use App\Http\Controllers\Controller;
+use App\Models\App\Restaurant\Goods;
+use App\Models\App\Restaurant\GoodsCategory;
 use App\Models\App\Restaurant\Restaurant;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
@@ -71,6 +73,67 @@ class RestaurantController extends Controller
     {
         $restaurant = Restaurant::find($id);
         return response()->json($restaurant->toArray());
+    }
+
+    /**
+     * 根据restaurant_id获取该餐厅的菜单
+     * 返回结果按照weight权重排序:先按照分类权重排序,
+     * 分类内部按照各菜品的权重排序
+     *
+     * // TODO: 目前只考虑一重分类~
+     *
+     * @param Request $request
+     * @param $restaurant_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cookbook(Request $request, $restaurant_id)
+    {
+        $result = array();
+
+        $goodsCategories = GoodsCategory::where(GoodsCategory::RESTAURANT_INFO_ID, $restaurant_id)
+//            ->orderBy(GoodsCategory::WEIGHT, 'desc')
+            ->get();
+
+        $tempCategories = array();
+        foreach ($goodsCategories as $goodsCategory) {
+            $categoryId = $goodsCategory->ID;
+            $goods = Goods::where(Goods::GOODS_CATEGORIES_ID, $categoryId)
+                ->where(Goods::AVAILABLE, 1)
+//                ->orderBy(Goods::WEIGHT, 'desc')
+                ->get();
+
+            $tempGoods = array();
+            foreach ($goods as $good) {
+                $tempGood = array();
+                $tempGood[Goods::ID] = $good->ID;
+                $tempGood[Goods::GOODS_ID] = $good->GOODS_ID;
+                $tempGood[Goods::NAME] = $good->NAME;
+                $tempGood[Goods::ORIGINAL_PRICE] = $good->ORIGINAL_PRICE;
+                $tempGood[Goods::REAL_PRICE] = $good->REAL_PRICE;
+                $tempGood[Goods::DESCRIPTION] = $good->DESCRIPTION;
+                $tempGood[Goods::PICTURES] = $good->PICTURES;
+
+                array_push($tempGoods, $tempGood);
+            }
+
+            $tempCategory = array();
+
+            $categoryInfo = array();
+            $categoryInfo[GoodsCategory::ID] = $categoryId;
+            $categoryInfo[GoodsCategory::CATEGORY_ID] = $goodsCategory->CATEGORY_ID;
+            $categoryInfo[GoodsCategory::NAME] = $goodsCategory->NAME;
+
+            $tempCategory['category_info'] = $categoryInfo;
+            $tempCategory['childs'] = $tempGoods;
+
+            array_push($tempCategories, $tempCategory);
+        }
+
+        $result['code'] = 0;
+        $result['msg'] = '接口调用成功';
+        $result['data'] = $tempCategories;
+
+        return response()->json($result);
     }
 
     /**

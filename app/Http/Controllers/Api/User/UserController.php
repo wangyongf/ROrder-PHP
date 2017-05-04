@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\App\User\User;
 use App\Utils\Common\ResponseUtils;
+use app\Utils\Common\TokenUtils;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    const DEFAULT_EXPIRE_INTERVAL = 3600;       //默认token有效时间为3600秒,也就是1小时
+
     /**
      * Display a listing of the resource.
      * 显示所有的用户列表的页面
@@ -89,10 +92,111 @@ class UserController extends Controller
         return response()->json($user->toArray());
     }
 
-
-    public function registerFreeLogin($mobile)
+    /**
+     * 实现用户使用手机号免注册登录
+     * 如果用户尚未注册,则使用该手机号注册新用户
+     * 如果用户已经注册过,则直接返回该用户信息
+     *
+     * @param Request $request
+     * @param $mobile
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function registerFreeLogin(Request $request, $mobile)
     {
+        $deviceId = $request->header('X-Deviceid');
+        if (empty($deviceId)) {
+            return ResponseUtils::nullJsonResponse('400', '客户端错误');
+        }
 
+        $user = User::where(User::MOBILE, $mobile)->first();
+        if (empty($user)) {
+            //注册新用户
+            return $this->registerNewUser($request, $mobile);
+        } else {
+            //老用户
+
+            $params = $user->uid . $user->password;
+            $token = TokenUtils::defaultToken($params);
+            $refreshToken = TokenUtils::defaultRefreshToken($params);
+
+            // TODO: 新建Token表,数据增删改查
+            $myToken = new Token();
+            $myToken->uid = $user->uid;
+            $myToken->deviceid = $request->header('X-Deviceid');
+            $myToken->token = $token;
+            $myToken->refresh_token = $refreshToken;
+            $myToken->expire_time = date('Y-m-d H:i:s',
+                self::DEFAULT_EXPIRE_INTERVAL + time());
+            $myToken->save();
+
+            return response()->json([
+                "code" => 0,
+                "msg" => "接口调用成功",
+                "data" => [
+                    "uid" => $user->uid,
+                    "mobile" => $mobile,
+                    "nickname" => $user->nickname,
+                    "signature" => $user->signature,
+                    "sex" => $user->sex,
+                    "birthday" => $user->birthday,
+                    "realname" => $user->realname,
+                    "email" => $user->email,
+                    "user_avatar" => $user->user_avatar,
+                    "token" => $token,
+                    "refresh_token" => $refreshToken
+                ]
+            ]);
+        }
+    }
+
+    /**
+     * 直接根据手机号注册新用户
+     *
+     * @param Request $request
+     * @param $mobile
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function registerNewUser(Request $request, $mobile)
+    {
+        $user = new User();
+        $user->mobile = $mobile;
+        $user->nickname = "";
+        $user->last_login_ip = $request->getClientIp();
+        $user->last_login_date = date("");
+        $user->head_portrait = "http://1234.qiniuyun.com/image.png";
+        $user->save();
+
+        $params = $user->uid . $user->password;
+        $token = TokenUtils::defaultToken($params);
+        $refreshToken = TokenUtils::defaultRefreshToken($params);
+
+        // TODO: 新建Token表,数据增删改查
+        $myToken = new Token();
+        $myToken->uid = $user->uid;
+        $myToken->deviceid = $request->header('X-Deviceid');
+        $myToken->token = $token;
+        $myToken->refresh_token = $refreshToken;
+        $myToken->expire_time = date('Y-m-d H:i:s',
+            self::DEFAULT_EXPIRE_INTERVAL + time());
+        $myToken->save();
+
+        return response()->json([
+            "code" => 0,
+            "msg" => "接口调用成功",
+            "data" => [
+                "uid" => $user->uid,
+                "mobile" => $mobile,
+                "nickname" => $user->nickname,
+                "signature" => $user->signature,
+                "sex" => $user->sex,
+                "birthday" => $user->birthday,
+                "realname" => $user->realname,
+                "email" => $user->email,
+                "user_avatar" => $user->user_avatar,
+                "token" => $token,
+                "refresh_token" => $refreshToken
+            ]
+        ]);
     }
 
     /**

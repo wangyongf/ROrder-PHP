@@ -28,6 +28,8 @@ class Goods extends BaseModel
     const PICTURES = 'pictures';
     const GOODS_CATEGORIES_ID = 'goods_categories_id';              //所属商品分类
 
+    const WEIGHT = 'weight';                    //权重
+
     /**
      * 非自增主键
      *

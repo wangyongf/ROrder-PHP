@@ -32,6 +32,10 @@ Route::get('forgotPassword', function () {
     return view('admin.auth.forgot_password');
 });
 
+// TODO: 后续token的存储上RSA等对称加密算法,客户端也一样~
+// TODO: 对称加密的加密秘钥(算法&加盐etc)由握手的时候确定~
+// TODO: 冷启动Token(第一次请求的Token, 是客户端写死?)
+// TODO: 完成菜谱部分的接口~
 // TODO: 将所有的checkHeader方法换成相应的中间件!
 // TODO: API RESTFUL化
 
@@ -73,7 +77,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //用户信息
             Route::post('user/store', 'UserController@store');
             Route::get('user/get/{id}', 'UserController@get');
-            Route::get('user/register_free/{mobile}', 'UserController@registerFreeLogin');                   //使用手机号免注册登录
+            Route::post('user/register_free/{mobile}', 'UserController@registerFreeLogin');                   //使用手机号免注册登录
 
             //用户优惠券
             Route::post('user_coupon/store', 'UserCouponController@store');
@@ -108,6 +112,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //餐厅
             Route::post('restaurant/store', 'RestaurantController@store');
             Route::get('restaurant/get/{id}', 'RestaurantController@get');
+            Route::get('restaurant/{id}/cookbook', 'RestaurantController@cookbook');
 
             //服务员
             Route::post('waiter/store', 'WaiterController@store');

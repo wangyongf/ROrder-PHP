@@ -23,6 +23,8 @@ class GoodsCategory extends BaseModel
     const NAME = 'name';
     const PARENT_ID = 'parent_id';
 
+    const WEIGHT = 'weight';
+
     /**
      * 非自增主键
      *
