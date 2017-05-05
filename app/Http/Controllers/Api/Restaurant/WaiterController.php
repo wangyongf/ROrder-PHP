@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Restaurant;
 use App\Http\Controllers\Controller;
 use App\Models\App\Order\Order;
 use App\Models\App\Order\OrderDetail;
+use App\Models\App\Restaurant\Goods;
 use App\Models\App\Restaurant\Waiter;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
@@ -97,12 +98,53 @@ class WaiterController extends Controller
         return response()->json($waiter->toArray());
     }
 
+    /**
+     * 服务员端获取自己的订单信息
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function order(Request $request, $id)
     {
         // TODO: 目前只考虑一个服务员应付一个订单的情况
 
         $order = Order::where(Order::WAITERS_ID, $id)->first();
         $details = OrderDetail::where(OrderDetail::ORDERS_ID, $order->ID)->get();
+
+        $detailsArray = array();
+        foreach ($details as $detail) {
+            $detailArray = array();
+            $goodsRawId = $detail->GOODS_ID;
+            $goods = Goods::find($goodsRawId);
+
+            $detailArray['goods_raw_id'] = $goods->ID;
+            $detailArray['goods_id'] = $goods->GOODS_ID;
+            $detailArray['name'] = $goods->NAME;
+            $detailArray['original_price'] = $goods->ORIGINAL_PRICE;
+            $detailArray['real_price'] = $goods->REAL_PRICE;
+            $detailArray['pictures'] = $goods->PICTURES;
+            $detailArray['status'] = $detail->STATUS;
+            $detailArray['quantity'] = $detail->QUANTITY;
+
+            array_push($detailsArray, $detailArray);
+        }
+
+        $orderData = array();
+        $orderData['orders_raw_id'] = $order->ID;
+        $orderData['orders_id'] = $order->ORDERS_ID;
+        $orderData['notes'] = $order->NOTES;
+        $orderData['status'] = $order->STATUS;
+        $orderData['tables_id'] = $order->TABLES_ID;
+        $orderData['user_info_uid'] = $order->USER_INFO_UID;
+        $orderData['details'] = $detailsArray;
+
+        $result = array();
+        $result['code'] = 0;
+        $result['msg'] = '接口调用成功';
+        $result['data'] = $orderData;
+
+        return response()->json($result);
     }
 
     /**
