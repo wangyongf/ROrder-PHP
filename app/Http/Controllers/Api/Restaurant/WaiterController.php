@@ -3,10 +3,22 @@
 namespace App\Http\Controllers\Api\Restaurant;
 
 use App\Http\Controllers\Controller;
+use App\Models\App\Order\Order;
+use App\Models\App\Order\OrderDetail;
 use App\Models\App\Restaurant\Waiter;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
 
+/**
+ * 服务员控制器
+ *
+ * Class WaiterController
+ * @package App\Http\Controllers\Api\Restaurant
+ *
+ * @author      Scott Wang
+ * @version     0.1
+ * @since         ROrder-PHP 0.1
+ */
 class WaiterController extends Controller
 {
     /**
@@ -83,6 +95,14 @@ class WaiterController extends Controller
     {
         $waiter = Waiter::find($id);
         return response()->json($waiter->toArray());
+    }
+
+    public function order(Request $request, $id)
+    {
+        // TODO: 目前只考虑一个服务员应付一个订单的情况
+
+        $order = Order::where(Order::WAITERS_ID, $id)->first();
+        $details = OrderDetail::where(OrderDetail::ORDERS_ID, $order->ID)->get();
     }
 
     /**

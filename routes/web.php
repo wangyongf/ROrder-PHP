@@ -118,6 +118,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //服务员
             Route::post('waiter/store', 'WaiterController@store');
             Route::get('waiter/get/{id}', 'WaiterController@get');
+            Route::get('waiter/{id}/order', 'WaiterController@order');
 
             //厨师
             Route::post('cook/store', 'CookController@store');
