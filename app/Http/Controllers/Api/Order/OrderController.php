@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Order;
 use App\Http\Controllers\Controller;
 use App\Models\App\Order\Order;
 use App\Models\App\Order\OrderDetail;
+use App\Models\App\Restaurant\Goods;
 use App\Models\App\Restaurant\Waiter;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
@@ -190,13 +191,53 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      * 在数据库中更新指定订单信息
      *
+     * // TODO: 这个函数的逻辑还有待完善
+     *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $orderId = $request->input('order_id');
+
+        $details = $request->input('details');
+        $resultArray = array();
+        foreach ($details as $detail) {
+            $result = array();
+            $result['goods_id'] = $detail['goods_id'];
+            $result['goods_name'] = Goods::find($detail['goods_id'])->NAME;
+            $orderDetail = OrderDetail::where(OrderDetail::ORDERS_ID, $orderId)
+                ->where(OrderDetail::GOODS_ID, $detail['goods_id'])
+                ->first();
+
+            $count = $detail['count'];
+            if ($count > 0) {         //增加份数
+                $orderDetail->QUANTITY += $count;
+                $orderDetail->save();
+
+                $result['result'] = 0;
+            } elseif ($count < 0) {         //减少份数
+                if ($orderDetail->STATUS == 0) {        //正常,尚未下锅...
+                    // TODO: 需保证大于0
+                    $orderDetail->QUANTITY += $count;
+                    $orderDetail->save();
+
+                    $result['result'] = 0;
+                } else {
+                    // TODO: 已经下锅, 不能退单
+                    $result['result'] = 1;
+                }
+            }
+
+            array_push($resultArray, $result);
+        }
+
+        $updateResult['update_result'] = $resultArray;
+        $finalResult['code'] = 0;               // TODO: 此处不一定是0...
+        $finalResult['msg'] = '接口调用成功';
+        $finalResult['data'] = $updateResult;
+
+        return response()->json($finalResult);
     }
 
     /**
