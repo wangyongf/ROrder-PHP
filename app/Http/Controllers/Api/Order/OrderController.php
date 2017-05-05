@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
 use App\Models\App\Order\Order;
+use App\Models\App\Order\OrderDetail;
+use App\Models\App\Restaurant\Waiter;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
 
@@ -90,6 +92,72 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         return response()->json($order->toArray());
+    }
+
+    /**
+     * 创建新的完整的订单
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function order(Request $request)
+    {
+        //TODO:订单编号会是自增的
+        //TODO:目前采取的策略是找到Waiter中空闲的,但实际上可能存在全满状态(暂时不考虑)
+
+        $details = $request->input('details');
+
+        $id = Waiter::all()->count() + 1;
+        $restaurant_info_id = $request->input('restaurant_info_id');
+        $newOrder = new Order();
+        $newOrder->ID = $id;
+        $newOrder->WAITERS_ID = $this->getAvailableWaiter($restaurant_info_id);
+        $newOrder->TOTAL_PRICE = 0;
+        $newOrder->NOTES = $request->input('notes');
+        $newOrder->RESTAURANT_INFO_ID = $restaurant_info_id;
+        $newOrder->STATUS = $request->input('status');
+        $newOrder->TABLES_ID = $request->input('tables_id');
+        $newOrder->USER_INFO_UID = $request->input('user_info_uid');
+        $newOrder->save();
+
+        for ($i = 0; $i < count($details); $i++) {
+            $detailId = OrderDetail::all()->count() + 1;
+
+            $orderDetail = new OrderDetail();
+            $orderDetail->ID = $detailId;
+            $orderDetail->ORDERS_ID = $newOrder->ID;
+            $orderDetail->GOODS_ID = $details[$i]['goods_id'];
+            $orderDetail->STATUS = $details[$i]['status'];
+            $orderDetail->QUANTITY = $details[$i]['quantity'];
+            $orderDetail->save();
+        }
+
+        return response()->json([
+            'code' => 0,
+            'msg' => '接口调用成功',
+            'data' => [
+                'order_id' => $newOrder->ID,
+                'waiters_id' => $newOrder->WAITERS_ID
+            ]
+        ]);
+    }
+
+    /**
+     * 从Waiter中找到一个空闲的服务员,
+     * 同时修改其状态
+     *
+     * @param $restaurant_info_id
+     * @return mixed
+     */
+    private function getAvailableWaiter($restaurant_info_id)
+    {
+        $waiter = Waiter::where(Waiter::RESTAURANT_INFO_ID, $restaurant_info_id)
+            ->where(Waiter::STATUS, 1)
+            ->first();
+        $waiter->STATUS = 0;
+        $waiter->save();
+
+        return $waiter->ID;
     }
 
     /**

@@ -26,6 +26,7 @@
 - [ ] User表: head_portrait字段改为user_avatar字段
 - [ ] 类似Goods表, GoodsCategory表, Restaurant表...都应该有weight权重字段
 - [ ] 将Goods表的价格字段改为`double`类型
+- [ ] 干掉Order表的total_price字段
 
 ## 关于生成UUID
 
@@ -46,6 +47,11 @@
 - empty3
 - empty4
 - empty5
+
+## 关于动态修改订单
+
+- Laravel端用Event来捕获订单的动态修改请求(订单修改的操作是由顾客端发起的,服务端可以察觉到变化)
+- 但是,厨师端和服务员端是无法察觉到变化的,目前的办法是()厨师端&服务员端定期请求客户端的数据了?)
 
 ## 关于本系统
 

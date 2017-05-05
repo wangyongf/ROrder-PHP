@@ -89,6 +89,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //订单
             Route::post('order/store', 'OrderController@store');
             Route::get('order/get/{id}', 'OrderController@get');
+            Route::post('order/order', 'OrderController@order');                //存储一笔订单
 
             //订单详情
             Route::post('order_detail/store', 'OrderDetailController@store');
