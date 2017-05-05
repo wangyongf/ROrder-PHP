@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\App\Order\DishSchedule;
 use App\Models\App\Order\Order;
 use App\Models\App\Order\OrderDetail;
+use App\Models\App\Restaurant\Cook;
 use App\Models\App\Restaurant\Goods;
 use App\Models\App\Restaurant\Waiter;
 use App\Utils\Common\ResponseUtils;
@@ -121,6 +123,7 @@ class OrderController extends Controller
         $newOrder->USER_INFO_UID = $request->input('user_info_uid');
         $newOrder->save();
 
+        $cookId = $this->getAvailableCook($restaurant_info_id);
         for ($i = 0; $i < count($details); $i++) {
             $detailId = OrderDetail::all()->count() + 1;
 
@@ -131,6 +134,17 @@ class OrderController extends Controller
             $orderDetail->STATUS = $details[$i]['status'];
             $orderDetail->QUANTITY = $details[$i]['quantity'];
             $orderDetail->save();
+
+            // TODO: 均不考虑错误的情况
+            //在这里新建上菜进度
+            $dishSchedule = new DishSchedule();
+            $dishSchedule->ID = DishSchedule::all()->count() + 1;
+            $dishSchedule->ORDERS_ID = $id;
+            $dishSchedule->ORDER_DETAILS_ID = $detailId;
+            $dishSchedule->STATUS = 1;                  //0-无效,1-有效,2-其它
+            $dishSchedule->SCHEDULE = 0;            //0-尚未开始,1-正在制作,2-上菜中,3-上菜完毕
+            $dishSchedule->COOKS_ID = $cookId;
+            $dishSchedule->save();
         }
 
         return response()->json([
@@ -252,5 +266,23 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * 从Cook中找到一个空闲的厨师
+     * 同时修改其状态
+     *
+     * @param $restaurant_info_id
+     * @return mixed
+     */
+    private function getAvailableCook($restaurant_info_id)
+    {
+        $cook = Cook::where(Cook::RESTAURANT_INFO_ID, $restaurant_info_id)
+            ->where(Cook::STATUS, 1)
+            ->first();
+        $cook->STATUS = 0;
+        $cook->save();
+
+        return $cook->ID;
     }
 }

@@ -120,9 +120,33 @@ class DishScheduleController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $finalResult = array();
+        $finalResult['code'] = 0;
+        $finalResult['msg'] = '接口调用成功';
+
+        $orderId = $request->input('order_id');
+        $detailsId = $request->input('order_details_id');
+        $schedule = $request->input('schedule');
+
+        $dishSchedule = DishSchedule::where(DishSchedule::ORDERS_ID, $orderId)
+            ->where(DishSchedule::ORDER_DETAILS_ID, $detailsId)
+            ->first();
+
+        $result = array();
+        if ($dishSchedule->STATUS == 1) {               //0-无效,1-有效,2-其它
+            $dishSchedule->SCHEDULE = $schedule;
+            $dishSchedule->save();
+
+            $result['result'] = 0;
+        } else {
+            $result['result'] = 1;
+        }
+
+        $finalResult['data'] = $result;
+
+        return response()->json($finalResult);
     }
 
     /**

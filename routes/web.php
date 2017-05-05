@@ -39,6 +39,8 @@ Route::get('forgotPassword', function () {
 // TODO: 将所有的checkHeader方法换成相应的中间件!
 // TODO: API RESTFUL化
 
+// TODO: 完成上菜进度相关逻辑(客户端每次只能查看一样菜的上菜进度)
+
 /**
  * api,提供给其他端(App, Web等)
  */
@@ -68,8 +70,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
         //管理员相关
         Route::group(['namespace' => 'Admin'], function () {
             //管理员
-             Route::post('admin/store', 'AdminController@store');
-             Route::get('admin/get/{id}', 'AdminController@get');
+            Route::post('admin/store', 'AdminController@store');
+            Route::get('admin/get/{id}', 'AdminController@get');
         });
 
         //用户相关
@@ -77,7 +79,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //用户信息
             Route::post('user/store', 'UserController@store');
             Route::get('user/get/{id}', 'UserController@get');
-            Route::post('user/register_free/{mobile}', 'UserController@registerFreeLogin');                   //使用手机号免注册登录
+            Route::post('user/register_free/{mobile}',
+                'UserController@registerFreeLogin');                   //使用手机号免注册登录
 
             //用户优惠券
             Route::post('user_coupon/store', 'UserCouponController@store');
@@ -89,8 +92,10 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //订单
             Route::post('order/store', 'OrderController@store');
             Route::get('order/get/{id}', 'OrderController@get');
-            Route::post('order/order', 'OrderController@order');                //存储一笔订单
-            Route::post('order/update', 'OrderController@update');          //更新一笔订单
+            //存储一笔订单
+            Route::post('order/order', 'OrderController@order');
+            //更新一笔订单
+            Route::post('order/update', 'OrderController@update');
 
             //订单详情
             Route::post('order_detail/store', 'OrderDetailController@store');
@@ -150,8 +155,10 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             Route::get('rating/get/{id}', 'RatingController@get');
 
             //上菜进度
-            Route::post('dishschedule/store', 'DishScheduleController@store');
-            Route::get('dishschedule/get/{id}', 'DishScheduleController@get');
+            Route::post('dish_schedule/store', 'DishScheduleController@store');
+            Route::get('dish_schedule/get/{id}', 'DishScheduleController@get');
+            //更新上菜进度
+            Route::post('dish_schedule/update', 'DishScheduleController@update');
         });
     });
 });
