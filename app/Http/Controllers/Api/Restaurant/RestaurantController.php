@@ -110,6 +110,9 @@ class RestaurantController extends Controller
                 $tempGood[Goods::NAME] = $good->NAME;
                 $tempGood[Goods::ORIGINAL_PRICE] = $good->ORIGINAL_PRICE;
                 $tempGood[Goods::REAL_PRICE] = $good->REAL_PRICE;
+                // TODO: 换成cover
+//                $tempGood[Goods::COVER] = $good->COVER;
+                $tempGood[Goods::COVER] = 'http://www.baidu.com';
                 $tempGood[Goods::DESCRIPTION] = $good->DESCRIPTION;
                 $tempGood[Goods::PICTURES] = $good->PICTURES;
 

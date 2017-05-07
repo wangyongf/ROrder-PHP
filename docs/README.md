@@ -27,6 +27,7 @@
 - [ ] 类似Goods表, GoodsCategory表, Restaurant表...都应该有weight权重字段
 - [ ] 将Goods表的价格字段改为`double`类型
 - [ ] 干掉Order表的total_price字段
+- [ ] Goods表增加cover字段,作为封面图片...
 
 ## 关于生成UUID
 

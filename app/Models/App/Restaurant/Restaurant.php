@@ -22,6 +22,7 @@ class Restaurant extends BaseModel
     const NAME = 'name';
     const DESCRIPTION = 'description';
     const ADDRESS = 'address';
+
     /**
      * 自增主键
      *

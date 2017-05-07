@@ -23,6 +23,7 @@ class Goods extends BaseModel
     const ORIGINAL_PRICE = 'original_price';
     const REAL_PRICE = 'real_price';
     const RESTAURANT_INFO_ID = 'restaurant_info_id';
+    const COVER = 'cover';
     const DESCRIPTION = 'description';
     const AVAILABLE = 'available';                  //商品是否可用：0不可用，1可用
     const PICTURES = 'pictures';
