@@ -11,6 +11,7 @@ use App\Models\App\Restaurant\Goods;
 use App\Models\App\Restaurant\Waiter;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 订单控制器
@@ -110,7 +111,7 @@ class OrderController extends Controller
 
         $details = $request->input('details');
 
-        $id = Waiter::all()->count() + 1;
+        $id = Order::all()->count() + 1;
         $restaurant_info_id = $request->input('restaurant_info_id');
         $newOrder = new Order();
         $newOrder->ID = $id;
@@ -176,6 +177,24 @@ class OrderController extends Controller
     }
 
     /**
+     * 从Cook中找到一个空闲的厨师
+     * 同时修改其状态
+     *
+     * @param $restaurant_info_id
+     * @return mixed
+     */
+    private function getAvailableCook($restaurant_info_id)
+    {
+        $cook = Cook::where(Cook::RESTAURANT_INFO_ID, $restaurant_info_id)
+            ->where(Cook::STATUS, 1)
+            ->first();
+        $cook->STATUS = 0;
+        $cook->save();
+
+        return $cook->ID;
+    }
+
+    /**
      * Display the specified resource.
      * 显示指定订单信息的页面
      *
@@ -185,6 +204,48 @@ class OrderController extends Controller
     public function show($id)
     {
         //
+    }
+
+    /**
+     * 根据订单号获取对应的订单详情
+     *
+     * @param $order_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function detail($order_id)
+    {
+        $result = array();
+        $details = array();
+
+        $orderDetails = OrderDetail::where(OrderDetail::ORDERS_ID, $order_id)
+            ->get();
+        $detailsArray = array();
+        foreach ($orderDetails as $orderDetail) {
+            $detailArray = array();
+            $goodsId = $orderDetail->GOODS_ID;
+            $goods = Goods::find($goodsId);
+            $detailArray['details_id'] = $orderDetail->ID;
+            $detailArray['goods_raw_id'] = $goodsId;
+            $detailArray['goods_id'] = $goods->GOODS_ID;
+            $detailArray['name'] = $goods->NAME;
+            $detailArray['original_price'] = $goods->ORIGINAL_PRICE;
+            $detailArray['real_price'] = $goods->REAL_PRICE;
+//            $detail['cover'] = $goods->COVER;
+            $detailArray['cover'] = "http://www.baidu.com";
+            $detailArray['pictures'] = $goods->PICTURES;
+            $detailArray['status'] = $orderDetail->STATUS;
+            $detailArray['quantity'] = $orderDetail->QUANTITY;
+
+            array_push($detailsArray, $detailArray);
+        }
+
+        $details['details'] = $detailsArray;
+
+        $result['code'] = 0;
+        $result['msg'] = '接口调用成功';
+        $result['data'] = $details;
+
+        return response()->json($result);
     }
 
     /**
@@ -224,19 +285,39 @@ class OrderController extends Controller
                 ->where(OrderDetail::GOODS_ID, $detail['goods_id'])
                 ->first();
 
+            $dishSchedule = DishSchedule::where(DishSchedule::ORDER_DETAILS_ID, $orderDetail->ID)->first();
+
             $count = $detail['count'];
             if ($count > 0) {         //增加份数
-                $orderDetail->QUANTITY += $count;
-                $orderDetail->save();
-
-                $result['result'] = 0;
-            } elseif ($count < 0) {         //减少份数
-                if ($orderDetail->STATUS == 0) {        //正常,尚未下锅...
-                    // TODO: 需保证大于0
-                    $orderDetail->QUANTITY += $count;
-                    $orderDetail->save();
+                if ($dishSchedule->SCHEDULE == 0) {
+                    //                $orderDetail->QUANTITY += $count;
+                    // TODO: 我怀疑此处是Laravel的一个BUG?
+                    // TODO: 更新失败???
+//                $orderDetail->save();
+                    DB::table(OrderDetail::TABLE_NAME)
+                        ->where(OrderDetail::ORDERS_ID, $orderId)
+                        ->where(OrderDetail::GOODS_ID, $detail['goods_id'])
+                        ->increment(OrderDetail::QUANTITY, $count);
 
                     $result['result'] = 0;
+//                $result['result'] = $orderDetail->QUANTITY;
+                } else {
+                    // TODO: 已经下锅,不能新增
+                    $result['result'] = 1;
+                }
+            } elseif ($count < 0) {         //减少份数
+                if ($dishSchedule->SCHEDULE == 0) {        //正常,尚未下锅...     0-尚未开始制作,1-正在制作,2-制作完成上菜中,3-上菜完毕
+                    // TODO: 需保证大于0
+//                    $orderDetail->QUANTITY += $count;
+                    // TODO: 更新失败???
+//                    $orderDetail->save();
+                    DB::table(OrderDetail::TABLE_NAME)
+                        ->where(OrderDetail::ORDERS_ID, $orderId)
+                        ->where(OrderDetail::GOODS_ID, $detail['goods_id'])
+                        ->decrement(OrderDetail::QUANTITY, -$count);
+
+                    $result['result'] = 0;
+//                    $result['result'] = $orderDetail->QUANTITY;
                 } else {
                     // TODO: 已经下锅, 不能退单
                     $result['result'] = 1;
@@ -266,23 +347,5 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * 从Cook中找到一个空闲的厨师
-     * 同时修改其状态
-     *
-     * @param $restaurant_info_id
-     * @return mixed
-     */
-    private function getAvailableCook($restaurant_info_id)
-    {
-        $cook = Cook::where(Cook::RESTAURANT_INFO_ID, $restaurant_info_id)
-            ->where(Cook::STATUS, 1)
-            ->first();
-        $cook->STATUS = 0;
-        $cook->save();
-
-        return $cook->ID;
     }
 }

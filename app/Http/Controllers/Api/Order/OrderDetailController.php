@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\App\Order\DishSchedule;
 use App\Models\App\Order\OrderDetail;
+use App\Models\App\Restaurant\Goods;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
 
@@ -78,13 +80,44 @@ class OrderDetailController extends Controller
     /**
      * 获取指定订单详情的信息(json)
      *
-     * @param $id
+     * @param $orderDetailId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function get($id)
+    public function get($orderDetailId)
     {
-        $orderDetail = OrderDetail::find($id);
-        return response()->json($orderDetail->toArray());
+        $result = array();
+        $data = array();
+
+        $orderDetail = OrderDetail::find($orderDetailId);
+        $orderId = $orderDetail->ORDERS_ID;
+
+        $goodsId = $orderDetail->GOODS_ID;
+        $goods = Goods::find($goodsId);
+        $data['goods_raw_id'] = $goodsId;
+        $data['goods_id'] = $goods->GOODS_ID;
+        $data['name'] = $goods->NAME;
+        $data['original_price'] = $goods->ORIGINAL_PRICE;
+        $data['real_price'] = $goods->REAL_PRICE;
+        // TODO: COVER
+//        $data['cover'] = $goods->COVER;
+        $data['cover'] = 'http://www.baidu.com';
+        $data['pictures'] = $goods->PICTURES;
+
+        $dishSchedule = DishSchedule::where(DishSchedule::ORDER_DETAILS_ID, $orderDetailId)->first();
+        $data['status'] = $dishSchedule->SCHEDULE;
+
+        $data['quantity'] = $orderDetail->QUANTITY;
+        $data['order_raw_id'] = $orderId;
+        // TODO: order_raw_id&order_id
+        $data['order_id'] = $orderId;
+        $data['created_at'] = $orderDetail->CREATED_AT;
+        $data['updated_at'] = $orderDetail->UPDATED_AT;
+
+        $result['code'] = 0;
+        $result['msg'] = '接口调用成功';
+        $result['data'] = $data;
+
+        return response()->json($result);
     }
 
     /**

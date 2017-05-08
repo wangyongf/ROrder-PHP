@@ -132,9 +132,11 @@ class RestaurantController extends Controller
             array_push($tempCategories, $tempCategory);
         }
 
+        $categories['categories'] = $tempCategories;
+
         $result['code'] = 0;
         $result['msg'] = '接口调用成功';
-        $result['data'] = $tempCategories;
+        $result['data'] = $categories;
 
         return response()->json($result);
     }

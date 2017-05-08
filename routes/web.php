@@ -96,6 +96,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             Route::post('order/order', 'OrderController@order');
             //更新一笔订单
             Route::post('order/update', 'OrderController@update');
+            //根据订单号获取订单详情
+            Route::get('order/detail/{id}', 'OrderController@detail');
 
             //订单详情
             Route::post('order_detail/store', 'OrderDetailController@store');

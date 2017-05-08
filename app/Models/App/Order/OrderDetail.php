@@ -43,4 +43,11 @@ class OrderDetail extends BaseModel
      * @var string
      */
     protected $primaryKey = self::ID;
+
+    /**
+     * 允许更新的字段
+     * @var array
+     */
+    protected $fillable = ['id', 'orders_id', 'goods_id', 'status', 'quantity',
+        'created_at', 'updated_at'];
 }
