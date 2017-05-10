@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Restaurant;
+namespace App\Http\Controllers\Api\Order;
 
 use App\Http\Controllers\Controller;
 use App\Models\App\Order\DishSchedule;
 use App\Utils\Common\ResponseUtils;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * 上菜进度控制器
@@ -126,18 +127,19 @@ class DishScheduleController extends Controller
         $finalResult['code'] = 0;
         $finalResult['msg'] = '接口调用成功';
 
-        $orderId = $request->input('order_id');
         $detailsId = $request->input('order_details_id');
         $schedule = $request->input('schedule');
 
-        $dishSchedule = DishSchedule::where(DishSchedule::ORDERS_ID, $orderId)
-            ->where(DishSchedule::ORDER_DETAILS_ID, $detailsId)
-            ->first();
+        $dishSchedule = DishSchedule::where(DishSchedule::ORDER_DETAILS_ID, $detailsId)->first();
 
         $result = array();
-        if ($dishSchedule->STATUS == 1) {               //0-无效,1-有效,2-其它
-            $dishSchedule->SCHEDULE = $schedule;
-            $dishSchedule->save();
+        if (!empty($dishSchedule) && $dishSchedule->STATUS == 1) {               //0-无效,1-有效,2-其它
+//            $dishSchedule->SCHEDULE = $schedule;
+            // TODO: 更新失败???
+//            $dishSchedule->save();
+            DB::table(DishSchedule::TABLE_NAME)
+                ->where(DishSchedule::ORDER_DETAILS_ID, $detailsId)
+                ->update([DishSchedule::SCHEDULE => $schedule]);
 
             $result['result'] = 0;
         } else {

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Utils\Common;
+namespace App\Utils\Common;
 
 /**
  * description

@@ -101,11 +101,11 @@ class WaiterController extends Controller
     /**
      * 服务员端获取自己的订单信息
      *
-     * @param Request $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
+     * @internal param Request $request
      */
-    public function order(Request $request, $id)
+    public function order($id)
     {
         // TODO: 目前只考虑一个服务员应付一个订单的情况
 
@@ -118,6 +118,7 @@ class WaiterController extends Controller
             $goodsRawId = $detail->GOODS_ID;
             $goods = Goods::find($goodsRawId);
 
+            $detailArray['details_id'] = $detail->ID;
             $detailArray['goods_raw_id'] = $goods->ID;
             $detailArray['goods_id'] = $goods->GOODS_ID;
             $detailArray['name'] = $goods->NAME;

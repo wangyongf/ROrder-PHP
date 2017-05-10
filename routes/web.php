@@ -99,6 +99,12 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //根据订单号获取订单详情
             Route::get('order/detail/{id}', 'OrderController@detail');
 
+            //上菜进度
+            Route::post('dish_schedule/store', 'DishScheduleController@store');
+            Route::get('dish_schedule/get/{id}', 'DishScheduleController@get');
+            //更新上菜进度
+            Route::post('dish_schedule/update', 'DishScheduleController@update');
+
             //订单详情
             Route::post('order_detail/store', 'OrderDetailController@store');
             Route::get('order_detail/get/{id}', 'OrderDetailController@get');
@@ -155,12 +161,6 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             //用户评价
             Route::post('rating/store', 'RatingController@store');
             Route::get('rating/get/{id}', 'RatingController@get');
-
-            //上菜进度
-            Route::post('dish_schedule/store', 'DishScheduleController@store');
-            Route::get('dish_schedule/get/{id}', 'DishScheduleController@get');
-            //更新上菜进度
-            Route::post('dish_schedule/update', 'DishScheduleController@update');
         });
     });
 });
