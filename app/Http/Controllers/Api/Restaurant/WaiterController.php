@@ -41,7 +41,7 @@ class WaiterController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.restaurant.store_waiter');
     }
 
     /**
@@ -54,7 +54,7 @@ class WaiterController extends Controller
     public function store(Request $request)
     {
         $id = Waiter::all()->count() + 1;
-        $waiter_id = $request->header(Waiter::WAITER_ID);
+//        $waiter_id = $request->header(Waiter::WAITER_ID);
         $restaurant_info_id = $request->header(Waiter::RESTAURANT_INFO_ID);
         $status = $request->header(Waiter::STATUS);
         $name = $request->header(Waiter::NAME);
@@ -63,24 +63,24 @@ class WaiterController extends Controller
         $birthday = $request->header(Waiter::BIRTHDAY);
         $pictures = $request->header(Waiter::PICTURES);
         $title = $request->header(Waiter::TITLE);
-
-        if (empty($waiter_id)) {
-            return ResponseUtils::nullJsonResponse('400', '客户端请求错误');
-        }
+//
+//        if (empty($waiter_id)) {
+//            return ResponseUtils::nullJsonResponse('400', '客户端请求错误');
+//        }
 
         // TODO: checkHeader--middleware
 
         $waiter = new Waiter();
-        $waiter->id = $id;
-        $waiter->waiter_id = $waiter_id;
-        $waiter->restaurant_info_id = $restaurant_info_id;
-        $waiter->status = $status;
-        $waiter->name = $name;
-        $waiter->orders_id = $orders_id;
-        $waiter->sex = $sex;
-        $waiter->birthday = $birthday;
-        $waiter->pictures = $pictures;
-        $waiter->title = $title;
+        $waiter->ID = $id;
+        $waiter->WAITER_ID = $request->input('waiter-id');
+        $waiter->RESTAURANT_INFO_ID = $request->input('restaurant-info-id');
+        $waiter->STATUS = 1;
+        $waiter->NAME = $request->input('name');
+        $waiter->ORDERS_ID = null;
+        $waiter->SEX = 1;
+        $waiter->BIRTHDAY = $request->input('birthday');
+        $waiter->PICTURES = null;
+        $waiter->TITLE = $request->input('title');
         $waiter->save();
 
         return ResponseUtils::simpleSuccessJsonResponse();
@@ -108,8 +108,11 @@ class WaiterController extends Controller
     public function order($id)
     {
         // TODO: 目前只考虑一个服务员应付一个订单的情况
+        // FIXME: 并且,现在取的是最新的一个订单
 
-        $order = Order::where(Order::WAITERS_ID, $id)->first();
+        $order = Order::where(Order::WAITERS_ID, $id)
+            ->orderBy(Order::CREATED_AT, 'desc')
+            ->first();
         $details = OrderDetail::where(OrderDetail::ORDERS_ID, $order->ID)->get();
 
         $detailsArray = array();

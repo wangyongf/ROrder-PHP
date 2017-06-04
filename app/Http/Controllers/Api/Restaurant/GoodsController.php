@@ -38,7 +38,7 @@ class GoodsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.restaurant.store_goods');
     }
 
     /**
@@ -61,23 +61,23 @@ class GoodsController extends Controller
         $pictures = $request->header(Goods::PICTURES);
         $goodsCategoriesId = $request->header(Goods::GOODS_CATEGORIES_ID);
 
-        if (empty($goodsId)) {
-            return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
-        }
+//        if (empty($goodsId)) {
+//            return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
+//        }
 
         // TODO: checkHeader--middleware
 
         $goods = new Goods();
-        $goods->id = $id;
-        $goods->goods_id = $goodsId;
-        $goods->name = $name;
-        $goods->original_price = $originalPrice;
-        $goods->real_price = $realPrice;
-        $goods->restaurant_info_id = $restaurantInfoId;
-        $goods->description = $description;
-        $goods->available = $available;
-        $goods->pictures = $pictures;
-        $goods->goods_categories_id = $goodsCategoriesId;
+        $goods->ID = $id;
+        $goods->GOODS_ID = $request->input('goods-id');
+        $goods->NAME = $request->input('name');
+        $goods->ORIGINAL_PRICE = $request->input('original-price');
+        $goods->REAL_PRICE = $request->input('real-price');
+        $goods->RESTAURANT_INFO_ID = $request->input('restaurant-info-id');
+        $goods->DESCRIPTION = $request->input('description');
+        $goods->AVAILABLE = 1;
+        $goods->PICTURES = null;
+        $goods->GOODS_CATEGORIES_ID = $request->input('goods-category-id');
         $goods->save();
 
         return ResponseUtils::simpleSuccessJsonResponse();

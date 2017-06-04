@@ -38,7 +38,7 @@ class GoodsCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.restaurant.store_goods_category');
     }
 
     /**
@@ -56,18 +56,18 @@ class GoodsCategoryController extends Controller
         $name = $request->header(GoodsCategory::NAME);
         $parentId = $request->header(GoodsCategory::PARENT_ID);
 
-        if (empty($categoryId)) {
-            return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
-        }
+//        if (empty($categoryId)) {
+//            return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
+//        }
 
         // TODO: checkHeader--middleware
 
         $goodCategory = new GoodsCategory();
-        $goodCategory->id = $id;
-        $goodCategory->category_id = $categoryId;
-        $goodCategory->restaurant_info_id = $restaurantInfoId;
-        $goodCategory->name = $name;
-        $goodCategory->parent_id = $parentId;
+        $goodCategory->ID = $id;
+        $goodCategory->CATEGORY_ID = $request->input('goods-category-id');
+        $goodCategory->RESTAURANT_INFO_ID = $request->input('restaurant-info-id');
+        $goodCategory->NAME = $request->input('name');
+        $goodCategory->PARENT_ID = -1;
         $goodCategory->save();
 
         return ResponseUtils::simpleSuccessJsonResponse();

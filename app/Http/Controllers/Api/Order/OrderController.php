@@ -188,6 +188,7 @@ class OrderController extends Controller
         $cook = Cook::where(Cook::RESTAURANT_INFO_ID, $restaurant_info_id)
             ->where(Cook::STATUS, 1)
             ->first();
+        // TODO: 这里的保存操作又不生效...
         $cook->STATUS = 0;
         $cook->save();
 

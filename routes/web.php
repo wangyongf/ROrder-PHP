@@ -125,16 +125,19 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
         //餐厅相关
         Route::group(['namespace' => 'Restaurant'], function () {
             //餐厅
+            Route::get('restaurant/create', 'RestaurantController@create');
             Route::post('restaurant/store', 'RestaurantController@store');
             Route::get('restaurant/get/{id}', 'RestaurantController@get');
             Route::get('restaurant/{id}/cookbook', 'RestaurantController@cookbook');
 
             //服务员
+            Route::get('waiter/create', 'WaiterController@create');
             Route::post('waiter/store', 'WaiterController@store');
             Route::get('waiter/get/{id}', 'WaiterController@get');
             Route::get('waiter/{id}/order', 'WaiterController@order');
 
             //厨师
+            Route::get('cook/create', 'CookController@create');
             Route::post('cook/store', 'CookController@store');
             Route::get('cook/get/{id}', 'CookController@get');
 
@@ -151,10 +154,12 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function () {
             Route::get('coupon/get/{id}', 'CouponController@get');
 
             //商品分类
+            Route::get('goods_category/create', 'GoodsCategoryController@create');
             Route::post('goodscategory/store', 'GoodsCategoryController@store');
             Route::get('goodscategory/get/{id}', 'GoodsCategoryController@get');
 
             //商品(菜品)
+            Route::get('goods/create', 'GoodsController@create');
             Route::post('goods/store', 'GoodsController@store');
             Route::get('goods/get/{id}', 'GoodsController@get');
 

@@ -38,7 +38,7 @@ class CookController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.restaurant.store_cook');
     }
 
     /**
@@ -51,7 +51,7 @@ class CookController extends Controller
     public function store(Request $request)
     {
         $id = Cook::all()->count() + 1;
-        $cooks_id = $request->header(Cook::COOKS_ID);
+//        $cooks_id = $request->header(Cook::COOKS_ID);
         $restaurant_info_id = $request->header(Cook::RESTAURANT_INFO_ID);
         $title = $request->header(Cook::TITLE);
         $status = $request->header(Cook::STATUS);
@@ -60,22 +60,22 @@ class CookController extends Controller
         $birthday = $request->header(Cook::BIRTHDAY);
         $pictures = $request->header(Cook::PICTURES);
 
-        if (empty($cooks_id)) {
-            return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
-        }
+//        if (empty($cooks_id)) {
+//            return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
+//        }
 
         // TODO: checkHeader--middleware
 
         $cook = new Cook();
         $cook->id = $id;
-        $cook->cooks_id = $cooks_id;
-        $cook->restaurant_info_id = $restaurant_info_id;
-        $cook->title = $title;
-        $cook->status = $status;
-        $cook->name = $name;
-        $cook->sex = $sex;
-        $cook->birthday = $birthday;
-        $cook->pictures = $pictures;
+        $cook->cooks_id = $request->input('cook-id');
+        $cook->restaurant_info_id = $request->input('restaurant-info-id');
+        $cook->title = $request->input('title');
+        $cook->status = 1;
+        $cook->name = $request->input('name');
+        $cook->sex = 1;
+        $cook->birthday = $request->input('birthday');
+        $cook->pictures = null;
         $cook->save();
 
         return ResponseUtils::simpleSuccessJsonResponse();

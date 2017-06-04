@@ -30,7 +30,7 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.restaurant.store_restaurant');
     }
 
     /**
@@ -42,10 +42,10 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        $restaurant_id = $request->input(Restaurant::RESTAURANT_ID);
-        $name = $request->input(Restaurant::NAME);
-        $description = $request->input(Restaurant::DESCRIPTION);
-        $address = $request->input(Restaurant::ADDRESS);
+        $restaurant_id = $request->input('restaurant-id');
+        $name = $request->input('name');
+        $description = $request->input('description');
+        $address = $request->input('address');
 
         if (empty($restaurant_id)) {
             return ResponseUtils::nullJsonResponse('400', '客户端参数错误');
@@ -54,10 +54,10 @@ class RestaurantController extends Controller
         // TODO: checkHeader--middleware
 
         $restaurant = new Restaurant();
-        $restaurant->restaurant_id = $restaurant_id;
-        $restaurant->name = $name;
-        $restaurant->description = $description;
-        $restaurant->address = $address;
+        $restaurant->RESTAURANT_ID = $restaurant_id;
+        $restaurant->NAME = $name;
+        $restaurant->DESCRIPTION = $description;
+        $restaurant->ADDRESS = $address;
         $restaurant->save();
 
         return ResponseUtils::simpleSuccessJsonResponse();
